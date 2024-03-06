@@ -6,16 +6,16 @@
     android:padding="16dp">
 
     <EditText
-        android:id="@+id/editTextTitle"
+        android:id="@+id/dialog_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Заголовок" />
+        android:hint="@string/dialog_hint_title" />
 
     <EditText
-        android:id="@+id/editTextText"
+        android:id="@+id/dialog_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:hint="Текст заметки" />
+        android:hint="@string/dialog_hint_text" />
 
 </LinearLayout>

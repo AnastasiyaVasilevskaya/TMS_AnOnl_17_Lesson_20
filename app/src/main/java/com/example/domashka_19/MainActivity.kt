@@ -40,8 +40,8 @@ class MainActivity : AppCompatActivity() {
         builder.setTitle("Добавить заметку")
 
         val dialogView = LayoutInflater.from(this).inflate(R.layout.add_note_dialog, null)
-        val titleEditText = dialogView.findViewById<EditText>(R.id.editTextTitle)
-        val textEditText = dialogView.findViewById<EditText>(R.id.editTextText)
+        val titleEditText = dialogView.findViewById<EditText>(R.id.dialog_title)
+        val textEditText = dialogView.findViewById<EditText>(R.id.dialog_text)
 
         builder.setView(dialogView)
 
