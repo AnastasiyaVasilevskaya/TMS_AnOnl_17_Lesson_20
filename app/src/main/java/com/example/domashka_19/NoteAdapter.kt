@@ -5,7 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import java.lang.IllegalStateException
 
-class NoteAdapter(private val items: List<ListItem>) :
+class
+NoteAdapter(private val items: List<ListItem>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun getItemViewType(position: Int): Int {
@@ -17,13 +18,10 @@ class NoteAdapter(private val items: List<ListItem>) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val layoutInflater = LayoutInflater.from(parent.context)
         return if (viewType == NOTE_TYPE) {
-            val noteView = layoutInflater.inflate(R.layout.note_item, parent, false)
-            NoteViewHolder(noteView)
+            NoteViewHolder.from(parent)
         } else {
-            val groupView = layoutInflater.inflate(R.layout.note_group, parent, false)
-            GroupViewHolder(groupView)
+            GroupViewHolder.from(parent)
         }
     }
 

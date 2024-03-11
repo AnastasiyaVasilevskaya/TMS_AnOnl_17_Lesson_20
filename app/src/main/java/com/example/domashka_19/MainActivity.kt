@@ -37,33 +37,29 @@ class MainActivity : AppCompatActivity() {
 
     private fun showAddNoteDialog() {
         val builder = AlertDialog.Builder(this)
-        builder.setTitle("Добавить заметку")
-
         val dialogView = LayoutInflater.from(this).inflate(R.layout.add_note_dialog, null)
         val titleEditText = dialogView.findViewById<EditText>(R.id.dialog_title)
         val textEditText = dialogView.findViewById<EditText>(R.id.dialog_text)
 
-        builder.setView(dialogView)
+        builder.setTitle("Добавить заметку")
+            .setView(dialogView)
+            .setPositiveButton("Добавить") { _, _ ->
+                val title = titleEditText.text.toString()
+                val text = textEditText.text.toString()
 
-        builder.setPositiveButton("Добавить") { _, _ ->
-            val title = titleEditText.text.toString()
-            val text = textEditText.text.toString()
-
-            if (title.isNotEmpty() && text.isNotEmpty()) {
-                val newNote = Note(title, text, LocalDate.now())
-                items.add(newNote)
-                noteAdapter.notifyItemInserted(items.size - 1)
+                val newItem = if (title.isNotEmpty()) {
+                    if (text.isNotEmpty()) {
+                        Note(title, text, LocalDate.now())
+                    } else Group(title)
+                } else null
+                newItem?.let { item ->
+                    items.add(item)
+                    noteAdapter.notifyItemInserted(items.size - 1)
+                }
             }
-            if (title.isNotEmpty() && text.isEmpty()) {
-                val newGroup = Group(title)
-                items.add(newGroup)
-                noteAdapter.notifyItemInserted(items.size - 1)
+            .setNegativeButton("Отмена") { dialog, _ ->
+                dialog.dismiss()
             }
-        }
-
-        builder.setNegativeButton("Отмена") { dialog, _ ->
-            dialog.dismiss()
-        }
 
         builder.show()
     }
