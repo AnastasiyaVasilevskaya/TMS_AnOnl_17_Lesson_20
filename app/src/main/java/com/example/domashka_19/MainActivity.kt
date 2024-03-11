@@ -2,12 +2,8 @@ package com.example.domashka_19
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.AppCompatButton
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.domashka_19.databinding.ActivityMainBinding
 import com.example.domashka_19.databinding.AddNoteDialogBinding
 import java.time.LocalDate
