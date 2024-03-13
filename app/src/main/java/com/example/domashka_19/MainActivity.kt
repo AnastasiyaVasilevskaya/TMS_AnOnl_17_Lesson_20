@@ -3,28 +3,33 @@ package com.example.domashka_19
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.domashka_19.data.Group
+import com.example.domashka_19.data.ItemsListener
+import com.example.domashka_19.data.Note
+import com.example.domashka_19.data.NotesService
 import com.example.domashka_19.databinding.ActivityMainBinding
 import com.example.domashka_19.databinding.AddNoteDialogBinding
 import java.time.LocalDate
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private lateinit var items: MutableList<ListItem>
     private lateinit var noteAdapter: NoteAdapter
+
+
+    private val notesService: NotesService
+        get() = (applicationContext as App).notesService
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val recyclerView = binding.notes
-        items = mutableListOf(
-            Group("Покупки"),
-            Note("Евроопт", "Купить 5 кг бананов", LocalDate.parse("2024-03-05")),
-            Note("Рынок", "Купить 15 тюльпанов", LocalDate.parse("2024-03-05"))
-
-        )
-        noteAdapter = NoteAdapter(items)
+        val items = notesService.getItems()
+        noteAdapter = NoteAdapter()
         recyclerView.adapter = noteAdapter
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
@@ -32,12 +37,26 @@ class MainActivity : AppCompatActivity() {
         binding.addNoteButton.setOnClickListener {
             showAddNoteDialog()
         }
+
+        val itemTouchHelper = ItemTouchHelper(SwipeToDeleteCallback(notesService))
+        itemTouchHelper.attachToRecyclerView(recyclerView)
+
+        notesService.addListener(itemsListener)
     }
 
+    private val itemsListener: ItemsListener = {
+        noteAdapter.items = it
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        notesService.removeListener(itemsListener)
+    }
 
     private fun showAddNoteDialog() {
         val dialogBinding = AddNoteDialogBinding.inflate(layoutInflater)
         val builder = AlertDialog.Builder(this)
+        val items = notesService.getItems()
 
         builder.setTitle("Добавить заметку")
             .setView(dialogBinding.root)
@@ -51,7 +70,7 @@ class MainActivity : AppCompatActivity() {
                     } else Group(title)
                 } else null
                 newItem?.let { item ->
-                    items.add(item)
+                    notesService.addItem(item)
                     noteAdapter.notifyItemInserted(items.size - 1)
                 }
             }

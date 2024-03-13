@@ -1,4 +1,4 @@
-package com.example.domashka_19
+package com.example.domashka_19.data
 
 import java.time.LocalDate
 

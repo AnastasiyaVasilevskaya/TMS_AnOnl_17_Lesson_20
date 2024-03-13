@@ -2,11 +2,20 @@ package com.example.domashka_19
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.domashka_19.data.Group
+import com.example.domashka_19.data.ListItem
+import com.example.domashka_19.data.Note
+import com.example.domashka_19.data.NotesService
 import java.lang.IllegalStateException
 
-class
-NoteAdapter(private val items: List<ListItem>) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class NoteAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    private val notesService = NotesService()
+    var items: List<ListItem> = emptyList()
+        set(newValue) {
+            field = newValue
+            notifyDataSetChanged()
+        }
 
     override fun getItemViewType(position: Int): Int {
         val item = items[position]

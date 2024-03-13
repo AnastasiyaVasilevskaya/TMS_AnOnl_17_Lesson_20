@@ -3,6 +3,7 @@ package com.example.domashka_19
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.domashka_19.data.Group
 import com.example.domashka_19.databinding.NoteGroupBinding
 
 class GroupViewHolder(private val noteGroupBinding: NoteGroupBinding) :
